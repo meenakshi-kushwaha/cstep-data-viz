@@ -330,11 +330,36 @@ class:middle
   geom_point(mapping= aes(x=displ, y=hwy))`
 --
 ---
+# Use of `+` to link code instead of `%&gt;%`
+`ggplot` was built before `%&gt;%` was introduced
+
+
+```r
+mpg %&gt;% 
+  ggplot()+ 
+  aes(x=displ)+
+  aes(y=hwy)+
+  geom_point()
+```
+
+is same as 
+
+
+```r
+ggplot(data=mpg)+ 
+  aes(x=displ)+
+  aes(y=hwy)+
+  geom_point()
+```
+
+---
 # Common Problems
 
 - Make sure that every `(` is matched with a `)` 
 
 - Make sure that every `"` is paired with another `"`
+
+- Make sure you use `+` and not `%&gt;%`
 
 - Make sure that `+` is in the right place: it has to come at the end of the line, not the start. The following code will **not work**
 
@@ -356,20 +381,29 @@ As you start to run R code, you’re likely to run into problems. Don’t worry 
 ---
 # Quiz
 
-What is the minimum requirement to make a plot in `ggplot()`?
+What is the minimum requirement to make a plot using `ggplot()`?
 
-- data, scales, theme
-- data, facets, geometries
-- data, statistics, coordinates
-- data, mapping, geometries
+1. data, scales, theme  
+2. data, facets, geometries  
+3. data, statistics, coordinates  
+4. data, mapping, geometries  
 
 ---
 # Quiz
 
 Which of this is correct syntax for `ggplot()`?
 
--
+a) `ggplot(data = mpg)` 
+`+ geom_point(mapping = aes(x = displ, y = hwy))`
 
+b) `ggplot(data = mpg) + ` 
+`geom_point(mapping = aes(x = displ, y = hwy))`
+
+c) `ggplot(data = mpg) %&gt;%`
+` geom_point(mapping = aes(x = displ, y = hwy))`
+
+d) `ggplot(data = mpg)`
+` geom_point(mapping = aes(x = displ, y = hwy))`
 
 
 ---
@@ -1084,6 +1118,19 @@ ggplot(data = mpg,
 ---
 class:inverse, middle, center
 #Exercises
+---
+# Quiz
+
+Which of the following is NOT true?
+
+1. If `aes()` function is placed inside `ggplot()`, the same aes is used for all layers
+
+2. If `aes()` is placed outside  `ggplot()` function then its definition is used for the specific layer
+
+3. Multiple `aes()` can be defined for multiple geometries within the same plot
+
+4. Variables or columns to be plotted can be placed outside `aes()` 
+
 ---
 # Statistical Transformations
 
@@ -2370,105 +2417,6 @@ ggplot(airquality)+
 - Rstudio [cheatsheet](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
 - BBC Visual and Data Journalism [cookbook for R graphics](https://bbc.github.io/rcookbook/)
 ![](images/bbc.png)
----
-
-class:middle, center
-
-#`openair` package
-
----
-# Input data type
-- The date/time field should be named `date` 
-- The wind speed and wind direction should be named `ws` and `wd` respectively
-- If you have data from more than one site include a column named `site`
-???
-The principal reason for insisting on specific input data
-format is that there will be less that can go wrong and it is easier to write code for a
-more limited set of conditions.
----
-#`summaryPlot`
-
-```r
-library(openair) # load openair
-data(mydata) ## make sure data that comes with openair is loaded
-summaryPlot(mydata[,1:5]) # summary of nox and wind data
-```
-
-```
-    date1     date2        ws        wd       nox       no2 
-"POSIXct"  "POSIXt" "numeric" "integer" "integer" "integer" 
-```
-
-![](index_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
-???
- The plots in the left panel show the time series data, where blue shows the presence of data and red missing
-data. The daily mean values are also shown in pale yellow scaled to cover the range in the data
-from zero to the maximum daily value. As such, the daily values are indicative of an overall
-trend rather than conveying quantitative information. For each pollutant, the overall summary
-statistics are given. For each year the percentage data capture is shown in green font. The
-panels on the right show the distribution of each species using a histogram plot
----
-# `windRose`
-
-```r
-library(openair)
-windRose(mydata)
-```
-
-![](index_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
----
-#`windRose`
-Use `type=` to group your data for plotting
-.pull-left[
-
-```r
-library(openair)
-*windRose(mydata, type = "year",
-         layout = c(4, 2))
-```
-
-![](index_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
-]
-
---
-.pull-right[
-
-```r
-library(openair)
-*windRose(mydata, type = "pm10",
-         layout = c(4, 1))
-```
-
-![](index_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
-]
----
-#`calendarPlot`
-.pull-left[
-
-```r
-library(openair)
-calendarPlot(mydata, pollutant = "o3", 
-             year =2003)
-```
-
-![](index_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
-]
---
-
-.pull-right[
-
-```r
-library(openair)
-calendarPlot(mydata, pollutant = "o3", 
-*            year = 2003, annotate = "ws")
-```
-
-![](index_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
-]
----
-class: middle, center
-###Explore more using the `openair` package manual  
-https://davidcarslaw.com/files/openairmanual.pdf
 ---
 #Resources Used
 

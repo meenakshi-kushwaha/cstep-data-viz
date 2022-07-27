@@ -26,12 +26,13 @@ output:
 }
 ```
 
-```{r, include = F, cache=TRUE}
+```{r, include = F}
 # This is the recommended set up for flipbooks
 # you might think about setting cache to TRUE as you gain practice --- building flipbooks from scratch can be time consuming
-knitr::opts_chunk$set(fig.width = 6, message = FALSE, warning = FALSE, comment = "", cache = F)
+knitr::opts_chunk$set(fig.width = 6, message = FALSE, warning = FALSE, comment = "", cache = TRUE)
 library(flipbookr)
 library(tidyverse)
+library(ggplot2)
 ```
 # Grammar of Graphics
 .pull-right[![](images/wilkinson.jpeg)]
@@ -221,11 +222,34 @@ class:middle
   geom_point(mapping= aes(x=displ, y=hwy))`
 --
 ---
+# Use of `+` to link code instead of `%>%`
+`ggplot` was built before `%>%` was introduced
+
+```{r pipe, eval=FALSE}
+mpg %>% 
+  ggplot()+ 
+  aes(x=displ)+
+  aes(y=hwy)+
+  geom_point()
+```
+
+is same as 
+
+```{r plus, eval=FALSE}
+ggplot(data=mpg)+ 
+  aes(x=displ)+
+  aes(y=hwy)+
+  geom_point()
+```
+
+---
 # Common Problems
 
 - Make sure that every `(` is matched with a `)` 
 
 - Make sure that every `"` is paired with another `"`
+
+- Make sure you use `+` and not `%>%`
 
 - Make sure that `+` is in the right place: it has to come at the end of the line, not the start. The following code will **not work**
 
@@ -246,12 +270,12 @@ As you start to run R code, you’re likely to run into problems. Don’t worry 
 ---
 # Quiz
 
-What is the minimum requirement to make a plot in `ggplot()`?
+What is the minimum requirement to make a plot using `ggplot()`?
 
-a) data, scales, theme
-b) data, facets, geometries
-c) data, statistics, coordinates
-d) data, mapping, geometries
+1. data, scales, theme  
+2. data, facets, geometries  
+3. data, statistics, coordinates  
+4. data, mapping, geometries  
 
 ---
 # Quiz
@@ -431,13 +455,13 @@ class:inverse, middle, center
 
 Which of the following is NOT true?
 
-- If `aes()` function is placed inside `ggplot()`, the same aes is used for all layers
+1. If `aes()` function is placed inside `ggplot()`, the same aes is used for all layers
 
-- If `aes()` is placed outside ggplot() function then its definition is used for the specific layer
+2. If `aes()` is placed outside  `ggplot()` function then its definition is used for the specific layer
 
-- Multiple `aes()` can be defined for multiple geometries within the same plot
+3. Multiple `aes()` can be defined for multiple geometries within the same plot
 
-- Variables or columns to be plotted can be placed outside `aes()` 
+4. Variables or columns to be plotted can be placed outside `aes()` 
 
 ---
 # Statistical Transformations
